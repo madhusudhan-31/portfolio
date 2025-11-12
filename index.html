@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Me | Madhu HG Gowda</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0a0a0f, #1e1e2f);
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* ----- NAVBAR ----- */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 60px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.6em;
+      font-weight: 600;
+      color: #00bcd4;
+      letter-spacing: 1px;
+    }
+
+    nav a {
+      margin: 0 20px;
+      text-decoration: none;
+      color: #e0e0e0;
+      font-weight: 400;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #00bcd4;
+    }
+
+    /* ----- MAIN SECTION ----- */
+    .container {
+      max-width: 1100px;
+      margin: 80px auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(12px);
+    }
+
+    .photo img {
+      width: 270px;
+      height: 270px;
+      object-fit: fill;
+      border-radius: 50%;
+      box-shadow: 0 0 25px rgba(0,188,212,0.4);
+      border: 4px solid rgba(255,255,255,0.1);
+      transition: 0.4s ease;
+    }
+
+    .photo img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 35px rgba(0,188,212,0.6);
+    }
+
+    .about-text {
+      max-width: 550px;
+      text-align: left;
+    }
+
+    .about-text h1 {
+      font-size: 2.8em;
+      color: #00bcd4;
+      margin-bottom: 10px;
+    }
+
+    .about-text h3 {
+      color: #b0b0b0;
+      font-weight: 400;
+      margin-bottom: 25px;
+    }
+
+    .about-text p {
+      font-size: 1.15em;
+      line-height: 1.8;
+      color: #e0e0e0;
+      margin-bottom: 35px;
+    }
+
+    .download-btn {
+      display: inline-block;
+      padding: 14px 40px;
+      background: linear-gradient(90deg, #00bcd4, #2196f3);
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.05em;
+      font-weight: 500;
+      border-radius: 50px;
+      box-shadow: 0 4px 20px rgba(0, 188, 212, 0.4);
+      transition: 0.3s;
+    }
+
+    .download-btn:hover {
+      transform: scale(1.05);
+      background: linear-gradient(90deg, #2196f3, #00bcd4);
+      box-shadow: 0 6px 25px rgba(0, 188, 212, 0.6);
+    }
+
+    footer {
+      text-align: center;
+      margin: 60px 0 20px;
+      color: #aaa;
+      font-size: 0.9em;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        text-align: center;
+      }
+      .about-text {
+        text-align: center;
+      }
+      header {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Madhusudhan Gowda H G</div>
+    <nav>
+      <a href="Bio.html">Bio</a>
+      <a href="skill.html">Skills</a>
+      <a href="project.html">Projects</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="photo">
+      <img src="1CR22CS097_MADHUSUDHAN GOWDA H G_PHOTO.jpg" alt="Madhu HG Gowda">
+    </div>
+
+    <div class="about-text">
+      <h1>About Me</h1>
+      <h3>Hi, I'm <span style="color:#00bcd4;">MadhuSudhan Gowda H G</span></h3>
+      <p>
+        I’m a creative and detail-oriented developer with a strong passion for building modern, user-friendly applications. 
+        My experience includes Python, Django, MySQL, and front-end development using HTML, CSS, and JavaScript. 
+        I focus on delivering clean, responsive designs with powerful backend functionality.
+      </p>
+
+      <a href="resume.pdf" download="Madhu_HG_Gowda_Resume.pdf" class="download-btn">
+        Download My Resume
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 Madhu HG Gowda | Portfolio
+  </footer>
+</body>
+</html>
