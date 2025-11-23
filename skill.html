@@ -2,216 +2,253 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Skills</title>
 
-  <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #0f172a, #1e293b);
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-    }
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 999;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(15px);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 18px 10%;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-      animation: fadeIn 1s ease forwards;
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
     }
 
-    .logo {
-      font-size: 1.6em;
-      font-weight: 700;
-      color: #00bcd4;
-      letter-spacing: 1px;
+    body{
+      font-family:'Poppins',sans-serif;
+      background: linear-gradient(135deg, #0a0a0f, #1b1b2f, #0a0a0f);
+      background-size:300% 300%;
+      animation:gradientMove 8s infinite alternate ease-in-out;
+      color:white;
     }
 
-    nav a {
-      margin: 0 15px;
-      text-decoration: none;
-      color: #e0e0e0;
-      font-weight: 500;
-      transition: 0.3s;
+    @keyframes gradientMove{
+      0%{background-position:left top;}
+      100%{background-position:right bottom;}
     }
 
-    nav a:hover {
-      color: #00bcd4;
+    /* HEADER */
+    header{
+      position:sticky;
+      top:0;
+      z-index:1000;
+      background:rgba(255,255,255,0.05);
+      backdrop-filter:blur(15px);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:18px 10%;
+      box-shadow:0 6px 20px rgba(0,0,0,0.3);
     }
 
-    h1 {
-      margin-top: 60px;
-      font-size: 2.8rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: #38bdf8;
+    .logo{
+      font-size:1.6em;
+      font-weight:700;
+      color:#00bcd4;
     }
 
-    .skills-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-      padding: 60px;
-      width: 80%;
+    nav a{
+      margin:0 15px;
+      text-decoration:none;
+      color:#e0e0e0;
+      font-weight:500;
+      transition:0.3s;
     }
 
-    .skill-card {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 16px;
-      padding: 30px 20px;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    nav a:hover{
+      color:#00bcd4;
     }
 
-    .skill-card:hover {
-      transform: translateY(-10px);
-      background: rgba(56, 189, 248, 0.15);
-      box-shadow: 0 8px 25px rgba(56, 189, 248, 0.3);
+    /* PAGE TITLE */
+    h1{
+      text-align:center;
+      margin-top:40px;
+      font-size:2.8rem;
+      color:#00bcd4;
+      letter-spacing:2px;
     }
 
-    .skill-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
+    /* SKILL GRID */
+    .skills-container{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+      gap:25px;
+      width:80%;
+      margin:40px auto;
     }
 
-    .skill-icon {
-      font-size: 2rem;
-      color: #38bdf8;
-      margin-right: 10px;
+    .skill-card{
+      background:rgba(255,255,255,0.06);
+      padding:25px;
+      border-radius:15px;
+      backdrop-filter:blur(12px);
+      box-shadow:0 6px 20px rgba(0,0,0,0.3);
+      transition:0.3s;
     }
 
-    .skill-name {
-      font-size: 1.2rem;
-      font-weight: 600;
-      flex: 1;
+    .skill-card:hover{
+      transform:translateY(-8px);
+      background:rgba(0,188,212,0.15);
     }
 
-    .skill-percentage {
-      font-weight: 500;
-      color: #38bdf8;
+    .skill-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
     }
 
-    .progress-bar {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      height: 10px;
-      overflow: hidden;
+    .skill-name{
+      font-size:1.2rem;
+      font-weight:600;
     }
 
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #38bdf8, #06b6d4);
-      border-radius: 8px;
-      width: 0%;
-      transition: width 1.2s ease-in-out;
+    .skill-percentage{
+      color:#00bcd4;
+      font-weight:600;
     }
 
-    .skill-card:hover .progress-fill {
-      width: var(--progress);
+    .progress-bar{
+      background:rgba(255,255,255,0.2);
+      height:10px;
+      border-radius:8px;
+      margin-top:10px;
+      overflow:hidden;
     }
 
-    footer {
-      margin-top: auto;
-      padding: 20px;
-      text-align: center;
-      font-size: 0.9rem;
-      color: #94a3b8;
+    .progress-fill{
+      height:100%;
+      background:linear-gradient(90deg,#00bcd4,#2196f3);
+      width:0%;
+      transition:1s;
     }
+
+    /* ADD SKILL FORM */
+    .add-skill-box{
+      width:80%;
+      margin:20px auto;
+      padding:20px;
+      background:rgba(255,255,255,0.07);
+      border-radius:12px;
+      backdrop-filter:blur(12px);
+    }
+
+    input, select{
+      padding:10px;
+      width:200px;
+      border-radius:8px;
+      border:none;
+      margin-right:10px;
+      outline:none;
+    }
+
+    button{
+      padding:10px 20px;
+      background:linear-gradient(135deg,#00bcd4,#2196f3);
+      border:none;
+      color:white;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:600;
+    }
+
+    button:hover{
+      transform:scale(1.05);
+    }
+
+    /* DELETE BUTTON */
+    .delete-btn{
+      background:#d9534f;
+      padding:6px 12px;
+      border-radius:6px;
+      margin-top:10px;
+      display:inline-block;
+      cursor:pointer;
+      font-size:14px;
+    }
+
   </style>
 </head>
 <body>
- <header>
-    <nav>
-        <h1>My Skills</h1>
-      <a href="index.html">Home</a>
-      <a href="Bio.html">Bio</a>
-      <a href="contact.html">Contact</a>
-    </nav>
 
-  </header>
+<header>
+  <div class="logo">Madhusudhan Gowda H G</div>
 
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="project.html">Projects</a>
+    <a href="Bio.html">Bio</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
 
-  <div class="skills-container">
-    <div class="skill-card" style="--progress: 90%;">
-      <div class="skill-header">
-        <i class="fa-brands fa-python skill-icon"></i>
-        <div class="skill-name">Python</div>
-        <div class="skill-percentage">90%</div>
-      </div>
-      <div class="progress-bar"><div class="progress-fill"style="width: 80%;"></div></div>
-    </div>
+<h1>My Skills</h1>
 
-    <div class="skill-card" style="--progress: 85%;">
-      <div class="skill-header">
-        <i class="fa-brands fa-django skill-icon"></i>
-        <div class="skill-name">Django</div>
-        <div class="skill-percentage">85%</div>
-      </div>
-      <div class="progress-bar"><div class="progress-fill"style="width: 80%;"></div></div>
-    </div>
+<!-- ADD SKILL FORM -->
+<div class="add-skill-box">
+  <input type="text" id="skillName" placeholder="Skill Name">
+  <select id="skillPercent">
+    <option value="">Percentage</option>
+    <option>50</option><option>60</option><option>70</option>
+    <option>80</option><option>90</option><option>100</option>
+  </select>
+  <button onclick="addSkill()">Add Skill</button>
+</div>
 
-    <div class="skill-card" style="--progress: 80%;">
-      <div class="skill-header">
-        <i class="fa-solid fa-database skill-icon"></i>
-        <div class="skill-name">MySQL</div>
-        <div class="skill-percentage">80%</div>
-      </div>
-      <div class="progress-bar"><div class="progress-fill"style="width: 80%;"></div></div>
-    </div>
+<!-- SKILLS LIST -->
+<div class="skills-container" id="skillsContainer"></div>
 
-    <div class="skill-card" style="--progress: 75%;">
-      <div class="skill-header">
-        <i class="fa-brands fa-js skill-icon"></i>
-        <div class="skill-name">JavaScript</div>
-        <div class="skill-percentage">75%</div>
-      </div>
-      <div class="progress-bar"><div class="progress-fill"style="width: 80%;"></div></div>
-    </div>
+<script>
+  // Load stored skills
+  let skills = JSON.parse(localStorage.getItem("skillsData")) || [];
 
-    <div class="skill-card" style="--progress: 90%;">
-      <div class="skill-header">
-        <i class="fa-brands fa-html5 skill-icon"></i>
-        <div class="skill-name">HTML5</div>
-        <div class="skill-percentage">90%</div>
-      </div>
-      <div class="progress-bar"><div class="progress-fill"style="width: 80%;"></div></div>
-    </div>
+  function renderSkills() {
+    const container = document.getElementById("skillsContainer");
+    container.innerHTML = "";
 
-    <div class="skill-card" style="--progress: 85%;">
-      <div class="skill-header">
-        <i class="fa-brands fa-css3-alt skill-icon"></i>
-        <div class="skill-name">CSS3</div>
-        <div class="skill-percentage">85%</div>
-      </div>
-      <div class="progress-bar"><div class="progress-fill"style="width: 80%;"></div></div>
-    </div>
+    skills.forEach((sk, index) => {
+      container.innerHTML += `
+        <div class="skill-card">
+          <div class="skill-header">
+            <div class="skill-name">${sk.name}</div>
+            <div class="skill-percentage">${sk.percent}%</div>
+          </div>
 
-    <div class="skill-card" style="--progress: 70%;">
-      <div class="skill-header">
-        <i class="fa-solid fa-cloud skill-icon"></i>
-        <div class="skill-name">Cloud Computing</div>
-        <div class="skill-percentage">70%</div>
-      </div>
-      <div class="progress-bar"><div class="progress-fill"style="width: 80%;"></div></div>
-    </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width:${sk.percent}%"></div>
+          </div>
 
+          <div class="delete-btn" onclick="deleteSkill(${index})">Delete</div>
+        </div>
+      `;
+    });
+  }
 
-  <footer>© 2025 Madhu HG Gowda | Portfolio</footer>
+  function addSkill() {
+    const name = document.getElementById("skillName").value.trim();
+    const percent = document.getElementById("skillPercent").value;
+
+    if (!name || !percent) {
+      alert("Please enter skill name and percentage!");
+      return;
+    }
+
+    skills.push({ name, percent });
+    localStorage.setItem("skillsData", JSON.stringify(skills));
+    renderSkills();
+
+    document.getElementById("skillName").value = "";
+    document.getElementById("skillPercent").value = "";
+  }
+
+  function deleteSkill(index) {
+    skills.splice(index, 1);
+    localStorage.setItem("skillsData", JSON.stringify(skills));
+    renderSkills();
+  }
+
+  renderSkills();
+</script>
 
 </body>
 </html>
