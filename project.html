@@ -232,98 +232,112 @@ textarea{min-height:90px}
 
 <script>
 (() => {
-  const ADMIN_PASS = "madhu"; // 🔐 change
-  const STORAGE_KEY = "mhg_projects";
+  const ADMIN_PASS = "madhu";          // change password
+  const STORAGE_KEY = "mhg_projects";  // localStorage key
   let projects = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+  let isAdmin = sessionStorage.getItem("isAdmin") === "true";
   let editingIndex = null;
-  let uploadedBase64 = "";
 
-  const el = id => document.getElementById(id);
+  const $ = id => document.getElementById(id);
 
-  function askPass(){ return prompt("Enter Admin Password") === ADMIN_PASS }
-  function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(projects)) }
-
-  function openModal(mode, idx=null){
-    el("modalBackdrop").style.display="flex";
-    editingIndex = idx;
-    el("modalTitle").textContent = mode === "add" ? "Add Project" : "Edit Project";
-
-    if(mode==="add"){
-      el("projTitle").value="";
-      el("projDesc").value="";
-      el("projLink").value="";
-      el("imgUrl").value="";
-      el("imgPreview").style.display="none";
-      uploadedBase64="";
-    }else{
-      const p = projects[idx];
-      el("projTitle").value=p.title;
-      el("projDesc").value=p.description;
-      el("projLink").value=p.link;
-      el("imgPreview").src=p.img;
-      el("imgPreview").style.display="block";
-    }
+  function save(){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
   }
 
-  function closeModal(){ el("modalBackdrop").style.display="none" }
-
-  el("imgFile").onchange = e => {
-    const f = e.target.files[0];
-    if(!f) return;
-    const r = new FileReader();
-    r.onload = ev => {
-      uploadedBase64 = ev.target.result;
-      el("imgPreview").src=uploadedBase64;
-      el("imgPreview").style.display="block";
-    };
-    r.readAsDataURL(f);
-  };
-
   function render(){
-    el("project-list").innerHTML="";
+    $("project-list").innerHTML = "";
     projects.forEach((p,i)=>{
-      const d=document.createElement("div");
-      d.className="card";
-      d.innerHTML=`
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
         <img src="${p.img}">
         <div class="card-content">
           <h3>${p.title}</h3>
           <p>${p.description}</p>
           <div class="card-footer">
-            ${p.link?`<a class="btn" href="${p.link}" target="_blank">View</a>`:""}
-            <button class="edit-btn">Edit</button>
-            <button class="delete-btn">Delete</button>
+            ${p.link ? `<a class="btn" href="${p.link}" target="_blank">View</a>` : ""}
+            ${isAdmin ? `
+              <button class="edit-btn">Edit</button>
+              <button class="delete-btn">Delete</button>` : ""}
           </div>
-        </div>`;
-      d.querySelector(".edit-btn").onclick=()=>{ if(askPass()) openModal("edit",i) };
-      d.querySelector(".delete-btn").onclick=()=>{
-        if(!askPass()) return;
-        if(confirm("Delete project?")){
-          projects.splice(i,1);
-          save(); render();
-        }
-      };
-      el("project-list").appendChild(d);
+        </div>
+      `;
+
+      if(isAdmin){
+        card.querySelector(".edit-btn").onclick = () => openModal("edit", i);
+        card.querySelector(".delete-btn").onclick = () => {
+          if(confirm("Delete project?")){
+            projects.splice(i,1);
+            save(); render();
+          }
+        };
+      }
+
+      $("project-list").appendChild(card);
     });
+
+    $("openAdd").style.display = isAdmin ? "inline-block" : "none";
   }
 
-  el("openAdd").onclick=()=>{ if(askPass()) openModal("add") };
+  function askAdmin(){
+    const p = prompt("Enter admin password");
+    if(p === ADMIN_PASS){
+      sessionStorage.setItem("isAdmin","true");
+      isAdmin = true;
+      render();
+      return true;
+    }
+    alert("Wrong password");
+    return false;
+  }
 
-  el("saveBtn").onclick=()=>{
-    const obj={
-      title: el("projTitle").value.trim(),
-      description: el("projDesc").value.trim(),
-      link: el("projLink").value.trim(),
-      img: uploadedBase64 || el("imgUrl").value.trim() || "https://via.placeholder.com/400"
+  function openModal(mode, idx=null){
+    $("modalBackdrop").style.display = "flex";
+    editingIndex = idx;
+    $("modalTitle").textContent = mode === "add" ? "Add Project" : "Edit Project";
+
+    if(mode === "add"){
+      $("projTitle").value = "";
+      $("projDesc").value = "";
+      $("projLink").value = "";
+      $("imgUrl").value = "";
+    } else {
+      const p = projects[idx];
+      $("projTitle").value = p.title;
+      $("projDesc").value = p.description;
+      $("projLink").value = p.link;
+      $("imgUrl").value = p.img;
+    }
+  }
+
+  function closeModal(){
+    $("modalBackdrop").style.display = "none";
+  }
+
+  $("openAdd").onclick = () => {
+    if(!isAdmin && !askAdmin()) return;
+    openModal("add");
+  };
+
+  $("saveBtn").onclick = () => {
+    const obj = {
+      title: $("projTitle").value.trim(),
+      description: $("projDesc").value.trim(),
+      link: $("projLink").value.trim(),
+      img: $("imgUrl").value.trim() || "https://via.placeholder.com/400"
     };
-    editingIndex===null?projects.push(obj):projects[editingIndex]=obj;
+
+    if(editingIndex === null) projects.push(obj);
+    else projects[editingIndex] = obj;
+
     save(); render(); closeModal();
   };
 
-  el("cancelBtn").onclick=closeModal;
+  $("cancelBtn").onclick = closeModal;
   render();
 })();
 </script>
+
 
 </body>
 </html>
