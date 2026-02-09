@@ -206,21 +206,35 @@
     const container = document.getElementById("skillsContainer");
     container.innerHTML = "";
 
+    if (skills.length === 0) {
+      container.innerHTML = "<p style='opacity:0.6'>No skills added yet</p>";
+      return;
+    }
+
     skills.forEach((sk, index) => {
-      container.innerHTML += `
-        <div class="skill-card">
-          <div class="skill-header">
-            <div class="skill-name">${sk.name}</div>
-            <div class="skill-percentage">${sk.percent}%</div>
-          </div>
+      const card = document.createElement("div");
+      card.className = "skill-card";
 
-          <div class="progress-bar">
-            <div class="progress-fill" style="width:${sk.percent}%"></div>
-          </div>
-
-          <div class="delete-btn" onclick="deleteSkill(${index})">Delete</div>
+      card.innerHTML = `
+        <div class="skill-header">
+          <div class="skill-name">${sk.name}</div>
+          <div class="skill-percentage">${sk.percent}%</div>
         </div>
+
+        <div class="progress-bar">
+          <div class="progress-fill"></div>
+        </div>
+
+        <div class="delete-btn" onclick="deleteSkill(${index})">Delete</div>
       `;
+
+      container.appendChild(card);
+
+      // ✅ Animate progress AFTER rendering
+      const fill = card.querySelector(".progress-fill");
+      setTimeout(() => {
+        fill.style.width = sk.percent + "%";
+      }, 100);
     });
   }
 
@@ -247,8 +261,10 @@
     renderSkills();
   }
 
+  // Initial render
   renderSkills();
 </script>
+
 
 </body>
 </html>
