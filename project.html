@@ -231,112 +231,70 @@ textarea{min-height:90px}
 </div>
 
 <script>
-(() => {
-  const ADMIN_PASS = "madhu";          // change password
-  const STORAGE_KEY = "mhg_projects";  // localStorage key
-  let projects = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-  let isAdmin = sessionStorage.getItem("isAdmin") === "true";
-  let editingIndex = null;
-
-  const $ = id => document.getElementById(id);
-
-  function save(){
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+/* ===== STATIC PROJECT DATA (VISIBLE TO EVERYONE) ===== */
+const projects = [
+  {
+    title: "Dairy Management System",
+    description: ": Designed and developed a full-featured desktop application to manage daily dairy operations. The 
+system handles member registration, milk collection entries, quantity and amount tracking, and daily reports. Admins can view and update records, send email notifications, and track member-wise milk data by date Implemented a modern frameless GUI using CustomTkinter with a background image and custom title bar. Integrated 
+MySQL for efficient data storage and secure CRUD operations, along with
+date-wise filtering, search, and real-time updates. Ensured smooth user experience with modular navigation and 
+seamless window transitions
+Tech Stack: HTML, CSS, MYSQL, PYTHON
+",
+    link: "https://github.com/madhusudhan-31/ddairy-management-system",
+    img: "dairy.png"
+  },
+  {
+    title: ": Dormitory Management System",
+    description: " Developed a user-friendly desktop application to automate hostel operations with separate portals 
+for admins and students. Key features include student registration, room allocation, rent calculation, payment 
+tracking, and complaint management. Admins can monitor room availability, update records, and view real-time 
+dashboards for rent and issue tracking. Students can log in to view room info, submit complaints, and check dues 
+enhanced with a modern layout and background image. Ensured secure data handling with MySQL integration, 
+input validation, and role-based access control.
+Tech Stack: HTML, CSS, JavaScript, Django, MySQL.",
+    link: "https://kowshik.pythonanywhere.com/",
+    img: "hostel.png"
+  },
+  {
+    title: ": E-Commerce website for Nandini Productse",
+    description: " Created a dynamic and responsive e-commerce website for online dairy product sales, featuring a 
+ed real-time cart updates, order confirmation messages, and basic user login/registration system for returning customers. JavaScript handling interactive features like cart management, form validation, and language switching (English/Kannada). Designed the UI with a focus on simplicity, responsiveness, and 
+visual appeal for both mobile and desktop users
+Tech Stack: HTML, CSS, JAVASCRIPT",
+    link: "https://madhusudhan-31.github.io/Nandini_wbsite/",
+    img: "ec-commerce.png"
   }
+];
 
-  function render(){
-    $("project-list").innerHTML = "";
-    projects.forEach((p,i)=>{
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `
-        <img src="${p.img}">
-        <div class="card-content">
-          <h3>${p.title}</h3>
-          <p>${p.description}</p>
-          <div class="card-footer">
-            ${p.link ? `<a class="btn" href="${p.link}" target="_blank">View</a>` : ""}
-            ${isAdmin ? `
-              <button class="edit-btn">Edit</button>
-              <button class="delete-btn">Delete</button>` : ""}
-          </div>
+/* ===== RENDER ===== */
+const projectList = document.getElementById("project-list");
+
+function renderProjects(){
+  projectList.innerHTML = "";
+
+  projects.forEach(p => {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      <img src="${p.img}" alt="${p.title}">
+      <div class="card-content">
+        <h3>${p.title}</h3>
+        <p>${p.description}</p>
+        <div class="card-actions">
+          ${p.link ? `<a href="${p.link}" target="_blank" class="btn">View Project</a>` : ""}
         </div>
-      `;
+      </div>
+    `;
+    projectList.appendChild(card);
+  });
+}
 
-      if(isAdmin){
-        card.querySelector(".edit-btn").onclick = () => openModal("edit", i);
-        card.querySelector(".delete-btn").onclick = () => {
-          if(confirm("Delete project?")){
-            projects.splice(i,1);
-            save(); render();
-          }
-        };
-      }
-
-      $("project-list").appendChild(card);
-    });
-
-    $("openAdd").style.display = isAdmin ? "inline-block" : "none";
-  }
-
-  function askAdmin(){
-    const p = prompt("Enter admin password");
-    if(p === ADMIN_PASS){
-      sessionStorage.setItem("isAdmin","true");
-      isAdmin = true;
-      render();
-      return true;
-    }
-    alert("Wrong password");
-    return false;
-  }
-
-  function openModal(mode, idx=null){
-    $("modalBackdrop").style.display = "flex";
-    editingIndex = idx;
-    $("modalTitle").textContent = mode === "add" ? "Add Project" : "Edit Project";
-
-    if(mode === "add"){
-      $("projTitle").value = "";
-      $("projDesc").value = "";
-      $("projLink").value = "";
-      $("imgUrl").value = "";
-    } else {
-      const p = projects[idx];
-      $("projTitle").value = p.title;
-      $("projDesc").value = p.description;
-      $("projLink").value = p.link;
-      $("imgUrl").value = p.img;
-    }
-  }
-
-  function closeModal(){
-    $("modalBackdrop").style.display = "none";
-  }
-
-  $("openAdd").onclick = () => {
-    if(!isAdmin && !askAdmin()) return;
-    openModal("add");
-  };
-
-  $("saveBtn").onclick = () => {
-    const obj = {
-      title: $("projTitle").value.trim(),
-      description: $("projDesc").value.trim(),
-      link: $("projLink").value.trim(),
-      img: $("imgUrl").value.trim() || "https://via.placeholder.com/400"
-    };
-
-    if(editingIndex === null) projects.push(obj);
-    else projects[editingIndex] = obj;
-
-    save(); render(); closeModal();
-  };
-
-  $("cancelBtn").onclick = closeModal;
-  render();
-})();
+renderProjects();
 </script>
+
 
 
 </body>
