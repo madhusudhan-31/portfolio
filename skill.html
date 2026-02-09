@@ -28,7 +28,6 @@
       100%{background-position:right bottom;}
     }
 
-    /* HEADER */
     header{
       position:sticky;
       top:0;
@@ -53,14 +52,12 @@
       text-decoration:none;
       color:#e0e0e0;
       font-weight:500;
-      transition:0.3s;
     }
 
     nav a:hover{
       color:#00bcd4;
     }
 
-    /* PAGE TITLE */
     h1{
       text-align:center;
       margin-top:40px;
@@ -69,7 +66,6 @@
       letter-spacing:2px;
     }
 
-    /* SKILL GRID */
     .skills-container{
       display:grid;
       grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
@@ -122,58 +118,13 @@
       width:0%;
       transition:1s;
     }
-
-    /* ADD SKILL FORM */
-    .add-skill-box{
-      width:80%;
-      margin:20px auto;
-      padding:20px;
-      background:rgba(255,255,255,0.07);
-      border-radius:12px;
-      backdrop-filter:blur(12px);
-    }
-
-    input, select{
-      padding:10px;
-      width:200px;
-      border-radius:8px;
-      border:none;
-      margin-right:10px;
-      outline:none;
-    }
-
-    button{
-      padding:10px 20px;
-      background:linear-gradient(135deg,#00bcd4,#2196f3);
-      border:none;
-      color:white;
-      border-radius:8px;
-      cursor:pointer;
-      font-weight:600;
-    }
-
-    button:hover{
-      transform:scale(1.05);
-    }
-
-    /* DELETE BUTTON */
-    .delete-btn{
-      background:#d9534f;
-      padding:6px 12px;
-      border-radius:6px;
-      margin-top:10px;
-      display:inline-block;
-      cursor:pointer;
-      font-size:14px;
-    }
-
   </style>
 </head>
+
 <body>
 
 <header>
   <div class="logo">Madhusudhan Gowda H G</div>
-
   <nav>
     <a href="index.html">Home</a>
     <a href="project.html">Projects</a>
@@ -184,34 +135,23 @@
 
 <h1>My Skills</h1>
 
-<!-- ADD SKILL FORM -->
-<div class="add-skill-box">
-  <input type="text" id="skillName" placeholder="Skill Name">
-  <select id="skillPercent">
-    <option value="">Percentage</option>
-    <option>50</option><option>60</option><option>70</option>
-    <option>80</option><option>90</option><option>100</option>
-  </select>
-  <button onclick="addSkill()">Add Skill</button>
-</div>
-
-<!-- SKILLS LIST -->
 <div class="skills-container" id="skillsContainer"></div>
 
 <script>
-  // Load stored skills
-  let skills = JSON.parse(localStorage.getItem("skillsData")) || [];
+  // ✅ Shared skill set (edit only here)
+  const skills = [
+    { name: "Python", percent: 90 },
+    { name: "Django", percent: 85 },
+    { name: "HTML & CSS", percent: 90 },
+    { name: "JavaScript", percent: 80 },
+    { name: "MySQL", percent: 85 },
+    { name: "GCP Basics", percent: 70 }
+  ];
 
   function renderSkills() {
     const container = document.getElementById("skillsContainer");
-    container.innerHTML = "";
 
-    if (skills.length === 0) {
-      container.innerHTML = "<p style='opacity:0.6'>No skills added yet</p>";
-      return;
-    }
-
-    skills.forEach((sk, index) => {
+    skills.forEach(sk => {
       const card = document.createElement("div");
       card.className = "skill-card";
 
@@ -220,51 +160,21 @@
           <div class="skill-name">${sk.name}</div>
           <div class="skill-percentage">${sk.percent}%</div>
         </div>
-
         <div class="progress-bar">
           <div class="progress-fill"></div>
         </div>
-
-        <div class="delete-btn" onclick="deleteSkill(${index})">Delete</div>
       `;
 
       container.appendChild(card);
 
-      // ✅ Animate progress AFTER rendering
-      const fill = card.querySelector(".progress-fill");
       setTimeout(() => {
-        fill.style.width = sk.percent + "%";
+        card.querySelector(".progress-fill").style.width = sk.percent + "%";
       }, 100);
     });
   }
 
-  function addSkill() {
-    const name = document.getElementById("skillName").value.trim();
-    const percent = document.getElementById("skillPercent").value;
-
-    if (!name || !percent) {
-      alert("Please enter skill name and percentage!");
-      return;
-    }
-
-    skills.push({ name, percent });
-    localStorage.setItem("skillsData", JSON.stringify(skills));
-    renderSkills();
-
-    document.getElementById("skillName").value = "";
-    document.getElementById("skillPercent").value = "";
-  }
-
-  function deleteSkill(index) {
-    skills.splice(index, 1);
-    localStorage.setItem("skillsData", JSON.stringify(skills));
-    renderSkills();
-  }
-
-  // Initial render
   renderSkills();
 </script>
-
 
 </body>
 </html>
