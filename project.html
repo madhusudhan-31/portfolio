@@ -30,7 +30,6 @@ body{
   to{background-position:right bottom}
 }
 
-/* Header */
 header{
   display:flex;
   justify-content:space-between;
@@ -40,16 +39,17 @@ header{
   backdrop-filter:blur(12px);
 }
 
-.logo{font-weight:700;color:var(--accent1)}
+.logo{font-weight:700;color:#00bcd4}
+
 nav a{
   color:#e6eef3;
   margin:0 12px;
   text-decoration:none;
 }
-nav a:hover{color:var(--accent1)}
+nav a:hover{color:#00bcd4}
 
 .resume-btn{
-  background:linear-gradient(135deg,var(--accent1),var(--accent2));
+  background:linear-gradient(135deg,#00bcd4,#2196f3);
   padding:10px 18px;
   border-radius:40px;
   color:#fff;
@@ -57,33 +57,17 @@ nav a:hover{color:var(--accent1)}
   font-weight:600;
 }
 
-/* Layout */
 .container{
   max-width:1200px;
   margin:60px auto;
   padding:0 6%;
 }
 
-.controls{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+.page-title{
+  font-size:28px;
   margin-bottom:30px;
 }
 
-.page-title{font-size:28px}
-
-.add-btn{
-  background:linear-gradient(135deg,var(--accent1),var(--accent2));
-  color:#fff;
-  border:0;
-  padding:10px 18px;
-  border-radius:40px;
-  cursor:pointer;
-  font-weight:600;
-}
-
-/* Grid */
 .projects{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
@@ -104,88 +88,18 @@ nav a:hover{color:var(--accent1)}
 }
 
 .card-content{padding:20px}
-.card h3{color:var(--accent1);margin-bottom:8px}
-.card p{font-size:14px;color:#d9e6ec}
-
-.card-footer{
-  margin-top:12px;
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
+.card h3{color:#00bcd4;margin-bottom:8px}
+.card p{font-size:14px;color:#d9e6ec;line-height:1.6}
 
 .btn{
-  padding:8px 14px;
+  display:inline-block;
+  margin-top:12px;
+  padding:8px 16px;
   border-radius:30px;
   text-decoration:none;
-  background:linear-gradient(135deg,var(--accent1),var(--accent2));
+  background:linear-gradient(135deg,#00bcd4,#2196f3);
   color:#fff;
   font-size:13px;
-}
-
-.edit-btn{background:#ffd166;border:0;padding:8px 12px;border-radius:8px;cursor:pointer}
-.delete-btn{background:#ff6b6b;border:0;padding:8px 12px;border-radius:8px;color:#fff;cursor:pointer}
-
-/* Modal */
-.modal-backdrop{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.6);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:1000;
-}
-
-.modal{
-  width:100%;
-  max-width:600px;
-  background:#111827;
-  padding:20px;
-  border-radius:12px;
-}
-
-.modal h2{margin-bottom:10px}
-input,textarea{
-  width:100%;
-  margin-bottom:10px;
-  padding:10px;
-  border-radius:8px;
-  border:1px solid rgba(255,255,255,.1);
-  background:#0f172a;
-  color:#fff;
-}
-
-textarea{min-height:90px}
-
-.modal-actions{
-  display:flex;
-  justify-content:flex-end;
-  gap:10px;
-}
-
-.secondary-btn{
-  background:transparent;
-  border:1px solid #555;
-  color:#fff;
-  padding:8px 14px;
-  border-radius:8px;
-}
-
-.save-btn{
-  background:linear-gradient(135deg,var(--accent1),var(--accent2));
-  border:0;
-  padding:8px 16px;
-  border-radius:8px;
-  color:#fff;
-}
-
-.img-preview{
-  width:100%;
-  height:160px;
-  object-fit:cover;
-  border-radius:8px;
-  display:none;
 }
 </style>
 </head>
@@ -203,66 +117,28 @@ textarea{min-height:90px}
 </header>
 
 <main class="container">
-  <div class="controls">
-    <div class="page-title">Projects</div>
-    <button class="add-btn" id="openAdd">+ Add Project</button>
-  </div>
-
+  <div class="page-title">Projects</div>
   <div id="project-list" class="projects"></div>
 </main>
 
-<!-- Modal -->
-<div id="modalBackdrop" class="modal-backdrop">
-  <div class="modal">
-    <h2 id="modalTitle">Add Project</h2>
-
-    <input id="projTitle" placeholder="Project Title">
-    <textarea id="projDesc" placeholder="Project Description"></textarea>
-    <input id="projLink" placeholder="Project Link (optional)">
-    <input id="imgUrl" placeholder="Image URL (optional)">
-    <input id="imgFile" type="file" accept="image/*">
-    <img id="imgPreview" class="img-preview">
-
-    <div class="modal-actions">
-      <button class="secondary-btn" id="cancelBtn">Cancel</button>
-      <button class="save-btn" id="saveBtn">Save</button>
-    </div>
-  </div>
-</div>
-
 <script>
-/* ===== STATIC PROJECT DATA (VISIBLE TO EVERYONE) ===== */
+/* ===== GLOBAL PROJECTS (VISIBLE TO ALL USERS) ===== */
 const projects = [
   {
     title: "Dairy Management System",
-    description: ": Designed and developed a full-featured desktop application to manage daily dairy operations. The 
-system handles member registration, milk collection entries, quantity and amount tracking, and daily reports. Admins can view and update records, send email notifications, and track member-wise milk data by date Implemented a modern frameless GUI using CustomTkinter with a background image and custom title bar. Integrated 
-MySQL for efficient data storage and secure CRUD operations, along with
-date-wise filtering, search, and real-time updates. Ensured smooth user experience with modular navigation and 
-seamless window transitions
-Tech Stack: HTML, CSS, MYSQL, PYTHON
-",
+    description: `Designed and developed a full-featured desktop application to manage dairy operations including member registration, milk collection, quantity and amount tracking, daily reports, and email notifications. Implemented a modern frameless GUI using CustomTkinter with MySQL integration, secure CRUD operations, date-wise filtering, search, and seamless navigation.`,
     link: "https://github.com/madhusudhan-31/ddairy-management-system",
     img: "dairy.png"
   },
   {
-    title: ": Dormitory Management System",
-    description: " Developed a user-friendly desktop application to automate hostel operations with separate portals 
-for admins and students. Key features include student registration, room allocation, rent calculation, payment 
-tracking, and complaint management. Admins can monitor room availability, update records, and view real-time 
-dashboards for rent and issue tracking. Students can log in to view room info, submit complaints, and check dues 
-enhanced with a modern layout and background image. Ensured secure data handling with MySQL integration, 
-input validation, and role-based access control.
-Tech Stack: HTML, CSS, JavaScript, Django, MySQL.",
+    title: "Dormitory Management System",
+    description: `Developed a hostel management system with separate admin and student portals. Features include student registration, room allocation, rent calculation, payment tracking, and complaint management. Implemented role-based access control, dashboards, and secure MySQL-backed data handling.`,
     link: "https://kowshik.pythonanywhere.com/",
     img: "hostel.png"
   },
   {
-    title: ": E-Commerce website for Nandini Productse",
-    description: " Created a dynamic and responsive e-commerce website for online dairy product sales, featuring a 
-ed real-time cart updates, order confirmation messages, and basic user login/registration system for returning customers. JavaScript handling interactive features like cart management, form validation, and language switching (English/Kannada). Designed the UI with a focus on simplicity, responsiveness, and 
-visual appeal for both mobile and desktop users
-Tech Stack: HTML, CSS, JAVASCRIPT",
+    title: "Nandini Dairy E-Commerce Website",
+    description: `Built a responsive e-commerce website for dairy products with cart management, order confirmation, user login, and multilingual support (English & Kannada). Implemented interactive UI using JavaScript with focus on usability and responsiveness.`,
     link: "https://madhusudhan-31.github.io/Nandini_wbsite/",
     img: "ec-commerce.png"
   }
@@ -271,31 +147,20 @@ Tech Stack: HTML, CSS, JAVASCRIPT",
 /* ===== RENDER ===== */
 const projectList = document.getElementById("project-list");
 
-function renderProjects(){
-  projectList.innerHTML = "";
-
-  projects.forEach(p => {
-    const card = document.createElement("div");
-    card.className = "card";
-
-    card.innerHTML = `
-      <img src="${p.img}" alt="${p.title}">
-      <div class="card-content">
-        <h3>${p.title}</h3>
-        <p>${p.description}</p>
-        <div class="card-actions">
-          ${p.link ? `<a href="${p.link}" target="_blank" class="btn">View Project</a>` : ""}
-        </div>
-      </div>
-    `;
-    projectList.appendChild(card);
-  });
-}
-
-renderProjects();
+projects.forEach(p => {
+  const card = document.createElement("div");
+  card.className = "card";
+  card.innerHTML = `
+    <img src="${p.img}" alt="${p.title}">
+    <div class="card-content">
+      <h3>${p.title}</h3>
+      <p>${p.description}</p>
+      ${p.link ? `<a href="${p.link}" target="_blank" class="btn">View Project</a>` : ""}
+    </div>
+  `;
+  projectList.appendChild(card);
+});
 </script>
-
-
 
 </body>
 </html>
